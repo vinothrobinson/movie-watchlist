@@ -1,7 +1,14 @@
 // Import express package
-const express = require("express");
+import express from "express";
+
+// Import Routes
+import movieRoutes from "./routes/movieRoutes.js";
+// ./src/routes/movieRoutes.js
 // Instance of our app
 const app = express();
+
+// API Routes
+app.use("/movies", movieRoutes);
 
 // GET request, in every request we receive a req and res
 app.get("/hello", (req, res) => {
