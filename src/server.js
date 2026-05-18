@@ -5,6 +5,7 @@ import { connectDB, disconnectDB } from "./config/db.js";
 
 // Import Routes
 import movieRoutes from "./routes/movieRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 config();
 connectDB();
@@ -12,8 +13,13 @@ connectDB();
 // Instance of our app
 const app = express();
 
+// Body Parsing Middlewars
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // API Routes
 app.use("/movies", movieRoutes);
+app.use("/auth", authRoutes);
 
 // GET request, in every request we receive a req and res
 app.get("/hello", (req, res) => {
