@@ -30,7 +30,7 @@ app.get("/hello", (req, res) => {
 
 // Listen to a specific port to initalize the app
 const PORT = 5001; // http://localhost:5001 (base url)
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running on PORT ${PORT}`);
 });
 
