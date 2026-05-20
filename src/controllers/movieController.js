@@ -1,5 +1,4 @@
 import axios from "axios";
-import { prisma } from "../config/db.js";
 
 const searchForMovie = async (req, res) => {
   try {
