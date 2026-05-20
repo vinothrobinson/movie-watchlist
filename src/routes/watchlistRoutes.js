@@ -3,6 +3,7 @@ import {
   addToWatchlist,
   removeFromWatchlist,
   updateWatchlistItem,
+  getWatchlist,
 } from "../controllers/watchlistController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 import { validateRequest } from "../middleware/validateRequest.js";
@@ -17,5 +18,7 @@ router.post("/", validateRequest(addToWatchlistSchema), addToWatchlist);
 router.delete("/:id", removeFromWatchlist);
 
 router.put("/:id", updateWatchlistItem);
+
+router.get("/", getWatchlist);
 
 export default router;

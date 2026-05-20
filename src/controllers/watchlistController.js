@@ -1,14 +1,40 @@
 import { prisma } from "../config/db.js";
+import axios from "axios";
 
 const addToWatchlist = async (req, res) => {
-  const { movieId, status, rating, notes } = req.body;
+  const { tmdbId, status, rating, notes } = req.body;
   // Verify movie exists
   const movie = await prisma.movie.findUnique({
-    where: { id: movieId },
+    where: { tmdbId: tmdbId },
   });
 
+  // If movie does not exist, fetch from TMDB
   if (!movie) {
-    return res.status(404).json({ error: "Movie not found" });
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/${tmdbId}`,
+      {
+        params: {
+          api_key: process.env.TMDB_API_KEY,
+        },
+      }
+    );
+
+    const data = response.data;
+
+    // Store movie in database
+    movie = await prisma.movie.create({
+      data: {
+        tmdbId: data.id,
+        title: data.title,
+        overview: data.overview,
+        releaseDate: data.release_date ? new Date(data.release_date) : null,
+        runtime: data.runtime,
+        posterUrl: data.poster_path
+          ? `https://image.tmdb.org/t/p/w500${data.poster_path}`
+          : null,
+        genres: data.genres.map((genre) => genre.name),
+      },
+    });
   }
 
   // Check if movie already exists in watchlist
@@ -16,7 +42,7 @@ const addToWatchlist = async (req, res) => {
     where: {
       userId_movieId: {
         userId: req.user.id,
-        movieId: movieId,
+        movieId: movie.id,
       },
     },
   });
@@ -28,7 +54,7 @@ const addToWatchlist = async (req, res) => {
   const watchlistItem = await prisma.watchlistItem.create({
     data: {
       userId: req.user.id,
-      movieId,
+      movieId: movie.id,
       status: status || "PLANNED",
       rating,
       notes,
@@ -68,7 +94,7 @@ const removeFromWatchlist = async (req, res) => {
 
   res.status(200).json({
     status: "success",
-    message: "Movie rempved from watchlist",
+    message: "Movie removed from watchlist",
   });
 };
 
@@ -114,4 +140,39 @@ const updateWatchlistItem = async (req, res) => {
   });
 };
 
-export { addToWatchlist, removeFromWatchlist, updateWatchlistItem };
+const getWatchlist = async (req, res) => {
+  try {
+    const watchlist = await prisma.watchlistItem.findMany({
+      where: {
+        userId: req.user.id,
+      },
+      include: {
+        movie: true,
+      },
+      orderBy: {
+        status: "asc",
+      },
+    });
+
+    res.status(200).json({
+      status: "Success",
+      results: watchlist.length,
+      data: {
+        watchlist,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      error: "Failed to fetch watchlist",
+    });
+  }
+};
+
+export {
+  addToWatchlist,
+  removeFromWatchlist,
+  updateWatchlistItem,
+  getWatchlist,
+};
