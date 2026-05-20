@@ -70,7 +70,7 @@ const addToWatchlist = async (req, res) => {
 };
 
 const removeFromWatchlist = async (req, res) => {
-  // Find watchlist itme and verify ownership
+  // Find watchlist item and verify ownership
   const watchlistItem = await prisma.watchlistItem.findUnique({
     where: { id: req.params.id },
   });
