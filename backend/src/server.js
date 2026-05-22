@@ -2,6 +2,7 @@
 import express from "express";
 import { config } from "dotenv";
 import { connectDB, disconnectDB } from "./config/db.js";
+import cors from "cors";
 
 // Import Routes
 import movieRoutes from "./routes/movieRoutes.js";
@@ -13,6 +14,13 @@ connectDB();
 
 // Instance of our app
 const app = express();
+
+// Enable CORS
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 
 // Body Parsing Middlewars
 app.use(express.json());
