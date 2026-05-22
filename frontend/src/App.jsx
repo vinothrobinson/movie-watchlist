@@ -2,8 +2,24 @@ import { useState } from "react";
 import axios from "axios";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import LoginPage from "./pages/LoginPage";
+import SearchPage from "./pages/SearchPage";
+import WatchlistPage from "./pages/WatchlistPage";
+
 function App() {
-  return;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+
+        <Route path="/login" element={<LoginPage />} />
+
+        <Route path="/search" element={<SearchPage />} />
+
+        <Route path="/watchlist" element={<WatchlistPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
