@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@theme {
+  --color-maroon-500: rgb(129, 11, 56);
+  --color-maroon-200: rgb(158, 15, 70);
+  --color-beige-200: rgb(241, 226, 209);
+  --color-beige-500: rgb(220, 195, 170);
+  --color-brown-200: rgb(167, 127, 96);
+  --color-brown-500: rgb(84, 26, 26);
+}
