@@ -1,4 +1,5 @@
 import phm from "../assets/phm.webp";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
   return (
@@ -14,9 +15,11 @@ export default function HomePage() {
             and update the status and ratings of any of the movies you have
             seen!
           </p>
-          <button className="py-3 px-8 bg-maroon-500 hover:bg-maroon-200 text-white rounded-full transition">
-            Log In
-          </button>
+          <Link to="/login">
+            <button className="py-3 px-8 bg-maroon-500 hover:bg-maroon-200 text-white rounded-full transition">
+              Log In
+            </button>
+          </Link>
         </div>
         <img
           src={phm}
