@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SearchPage from "./pages/SearchPage";
 import WatchlistPage from "./pages/WatchlistPage";
+import MoviePage from "./pages/MoviePage";
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
 
         <Route path="/search" element={<SearchPage />} />
+
+        <Route path="/movie/:tmdbId" element={<MoviePage />} />
 
         <Route path="/watchlist" element={<WatchlistPage />} />
       </Routes>

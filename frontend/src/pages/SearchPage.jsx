@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // prevent empty searches
@@ -40,6 +42,14 @@ export default function SearchPage() {
     return () => clearTimeout(timeout);
   }, [query]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!query.trim()) return;
+
+    navigate(`/search?q=${encodeURIComponent(query)}`);
+  };
+
   return (
     <div className="flex flex-col items-center bg-beige-200 font-['Inter'] min-h-screen">
       <header className="w-full bg-maroon-500 text-white mb-5">
@@ -56,7 +66,7 @@ export default function SearchPage() {
       <div className="relative w-2xl">
         <h1 className="text-6xl font-semi-bold text-center mb-5">Search</h1>
         {/* Search Bar */}
-        <div className="relative w-full">
+        <form onSubmit={handleSubmit} className="relative w-full">
           <Search
             className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
             size={20}
@@ -77,7 +87,7 @@ export default function SearchPage() {
           focus:ring-2
           focus:ring-maroon-300"
           />
-        </div>
+        </form>
 
         {/* Results */}
         {movies.length > 0 && (
@@ -85,7 +95,10 @@ export default function SearchPage() {
             {movies.map((movie, index) => (
               <div key={movie.id}>
                 {/* Movie Row */}
-                <div className="flex items-center gap-4 p-4 hover:bg-gray-100 cursor-pointer">
+                <div
+                  className="flex items-center gap-4 p-4 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => navigate(`/movie/${movie.id}`)}
+                >
                   {/* Poster */}
                   {movie.poster_path && (
                     <img
