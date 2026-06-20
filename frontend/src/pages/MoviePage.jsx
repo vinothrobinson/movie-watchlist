@@ -38,9 +38,9 @@ export default function MoviePage() {
           <div className="flex flex-col md:flex-row gap-8">
             {/* Poster */}
             <div className="shrink-0">
-              {movie.posterUrl && (
+              {movie.poster_path && (
                 <img
-                  src={`https://image.tmdb.org/t/p/w500${movie.posterUrl}`}
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                   alt={movie.title}
                   className="w-72 rounded-xl shadow-md"
                 />
@@ -52,8 +52,8 @@ export default function MoviePage() {
               <h1 className="text-4xl font-bold mb-2">{movie.title}</h1>
 
               <div className="flex flex-wrap gap-4 text-gray-600 mb-6">
-                {movie.releaseDate && (
-                  <span>{new Date(movie.releaseDate).getFullYear()}</span>
+                {movie.release_date && (
+                  <span>{new Date(movie.release_date).getFullYear()}</span>
                 )}
 
                 {movie.runtime && <span>{movie.runtime} min</span>}
