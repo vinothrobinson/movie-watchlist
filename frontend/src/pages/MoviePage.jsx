@@ -59,6 +59,27 @@ export default function MoviePage() {
                 {movie.runtime && <span>{movie.runtime} min</span>}
               </div>
 
+              {movie.genres?.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {movie.genres.map((genre) => (
+                    <span
+                      key={genre.id}
+                      className="
+                        px-3
+                        py-1
+                        bg-gray-100
+                        text-gray-700
+                        rounded-full
+                        text-sm
+                        font-medium
+                      "
+                    >
+                      {genre.name}
+                    </span>
+                  ))}
+                </div>
+              )}
+
               {/* Overview */}
               <div className="mb-8">
                 <h2 className="text-xl font-semibold mb-2">Overview</h2>

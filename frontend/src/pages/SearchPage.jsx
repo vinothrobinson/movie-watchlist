@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import SearchBar from "../components/SearchBar";
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
@@ -47,7 +48,7 @@ export default function SearchPage() {
 
     if (!query.trim()) return;
 
-    navigate(`/search?q=${encodeURIComponent(query)}`);
+    navigate(`/search/results?q=${encodeURIComponent(query)}`);
   };
 
   return (
@@ -66,28 +67,11 @@ export default function SearchPage() {
       <div className="relative w-2xl">
         <h1 className="text-6xl font-semi-bold text-center mb-5">Search</h1>
         {/* Search Bar */}
-        <form onSubmit={handleSubmit} className="relative w-full">
-          <Search
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
-            size={20}
-          />
-          <input
-            type="text"
-            placeholder="Search for movies..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="w-full
-          p-2
-          bg-white
-          border
-          border-gray-200
-          rounded-2xl
-          shadow-sm
-          focus:outline-none
-          focus:ring-2
-          focus:ring-maroon-300"
-          />
-        </form>
+        <SearchBar
+          query={query}
+          setQuery={setQuery}
+          handleSubmit={handleSubmit}
+        />
 
         {/* Results */}
         {movies.length > 0 && (
